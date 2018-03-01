@@ -12,6 +12,13 @@ import android.widget.Toast;
 
 public class ExamActivity extends AppCompatActivity {
 
+    /**
+     * This could really use some documentation.  Since your variable names are short and sweet
+     * someone new to the codebase might need a decoder ring to figure it all out.
+     *
+     * And that someone might be you if you look at this 3 months from now :)
+     */
+
     private EditText userName;
 
     private RadioButton q1Destiny, q2Destiny, q3Destiny, q4Destiny, q5Destiny, q6Destiny, q7Destiny, q8Destiny, q9Destiny, q10Destiny;
@@ -36,6 +43,8 @@ public class ExamActivity extends AppCompatActivity {
         // Get all relevant views for correct answers, EditText, and the Destiny answers
         userName = findViewById(R.id.EnterNameID);
 
+        // When debugging your code, this set was poorly named
+        // Better to have them to align to your order q11Answer1, q11Wrong2, q11Answer3, q11Destiny4
         q11Answer1 = findViewById(R.id.q11a1);
         q11Answer2 = findViewById(R.id.q11a2);
         q11Wrong = findViewById(R.id.q11aw1);
@@ -80,11 +89,19 @@ public class ExamActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * More documentation! :)  Probably best to leave the onClick as part of the XML and not a style
+     * So that the editor doesn't think that the method is not being used (when it is)
+     *
+     */
+
     public void onQuestionsRadioButtonClicked(View view) {
         //Verify if the correct radio button answer is checked. If it is, set the corresponding variable to true.
         // Otherwise set it to false.
 
-        boolean checked = ((RadioButton) view).isChecked();
+
+        // Your buttons could have been named better than they are.  Your code is like a puzzle.
+        boolean checked = ((RadioButton) view).isChecked();  // Why have this?
         switch (view.getId()) {
             case R.id.q1answer:
                 q1 = checked;
@@ -121,30 +138,37 @@ public class ExamActivity extends AppCompatActivity {
         }
     }
 
+
+    // if you're leveraging the onClick, remove them from the styles so the function name isn't grey below.
     public void onQuestionsCheckboxClicked(View view) {
         // Verify which checkboxes are checked and which are not, assigning a true or false value to the correct variable based on which question is being checked.
 
+        // This whole switch statement runs for every tick.  Did you forget to add breaks after each section?
         switch (view.getId()) {
             case R.id.q11a1:
             case R.id.q11a2:
             case R.id.q11aw1:
             case R.id.q11destiny:
                 q11 = q11Answer1.isChecked() && q11Answer2.isChecked() && !q11Wrong.isChecked() && !q11Destiny.isChecked();
+                break;
             case R.id.q12a1:
             case R.id.q12a2:
             case R.id.q12a3:
             case R.id.q12destiny:
                 q12 = q12Answer1.isChecked() && q12Answer2.isChecked() && q12Answer3.isChecked() && !q12Destiny.isChecked();
+                break;
             case R.id.q13a1:
             case R.id.q13a2:
             case R.id.q13a3:
             case R.id.q13destiny:
                 q13 = q13Answer1.isChecked() && q13Answer2.isChecked() && q13Answer3.isChecked() && !q13Destiny.isChecked();
+                break;
             case R.id.q14a1:
             case R.id.q14a2:
             case R.id.q14aw1:
             case R.id.q14destiny:
                 q14 = q14Answer1.isChecked() && q14Answer2.isChecked() && !q14Wrong.isChecked() && !q14Destiny.isChecked();
+                break;
             default:
                 break;
         }
@@ -163,14 +187,17 @@ public class ExamActivity extends AppCompatActivity {
             destiny12 = true;
             destiny13 = true;
             destiny14 = true;
-
-            // Check if the EditText has the word "Destiny"
-
-            String lowerCaseUserName = userName.getText().toString();
-            if (lowerCaseUserName.toLowerCase().equals("destiny")) {
-                destinyEditText = true;
-            }
         }
+
+        // Your bracket above was misplaced and unless the top was true, you skip text check.
+
+        // Check if the EditText has the word "Destiny"
+
+        String lowerCaseUserName = userName.getText().toString();
+        if (lowerCaseUserName.toLowerCase().equals("destiny")) {
+            destinyEditText = true;
+        }
+
     }
 
     private int ScoreCheck() {
@@ -225,6 +252,11 @@ public class ExamActivity extends AppCompatActivity {
 
     public void chooseIntent() {
 
+        /**
+         * You currently don't check for unanswered questions.  You may want to make sure
+         * they tick off at least one radiobox and / or checkbox
+          */
+
         DestinyChecker();
         int score = ScoreCheck();
         boolean destinyTruthCheck = (destinyRadio && destiny11 && destiny12 && destiny13 && destiny14 && destinyEditText);
@@ -232,10 +264,12 @@ public class ExamActivity extends AppCompatActivity {
         if (destinyTruthCheck) {
             submitIntent = new Intent(ExamActivity.this, DestinyActivity.class);
             startActivity(submitIntent);
+            finish();
         } else {
             submitIntent = new Intent(ExamActivity.this, ResultsActivity.class);
             submitIntent.putExtra("FINAL_SCORE", score);
             startActivity(submitIntent);
+            finish();
         }
     }
 }

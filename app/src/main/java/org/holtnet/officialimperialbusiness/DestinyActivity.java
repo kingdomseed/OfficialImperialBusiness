@@ -20,8 +20,9 @@ public class DestinyActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent beginIntent = new Intent(DestinyActivity.this, MainActivity.class);
-                startActivity(beginIntent);
+//                Intent beginIntent = new Intent(DestinyActivity.this, MainActivity.class);
+//                startActivity(beginIntent);
+                finish();
             }
         });
     }
