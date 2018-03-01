@@ -34,11 +34,20 @@ public class ResultsActivity extends AppCompatActivity {
 
         Button returnButton = findViewById(R.id.return_button);
 
+        /**
+         * You keep creating Intents and never release them.  If you ran through your quiz multiple
+         * times you would see a ton of Views / Intents stacked on top of each other and if you kept
+         * going would eventually run out of memory and crash.
+         *
+         * Note how I tweaked your methods to release the current Intents and go back to the main
+         * menu.  Also note how the visual has changed from what you had before.
+         */
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent beginIntent = new Intent(ResultsActivity.this, MainActivity.class);
-                startActivity(beginIntent);
+//                Intent beginIntent = new Intent(ResultsActivity.this, MainActivity.class);
+//                startActivity(beginIntent);
+                finish();
             }
         });
     }
